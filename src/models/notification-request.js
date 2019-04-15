@@ -3,10 +3,15 @@
 type RequestMetadataType = {
   id?: string,
   userId?: string
-}
+};
+
+type EmailAdress = {
+  email: string,
+  name?: string
+};
 
 export type EmailRequestType = RequestMetadataType & {
-  from: string,
+  from: string | EmailAdress,
   to: string,
   subject: string,
   cc?: string[],
@@ -27,16 +32,16 @@ export type EmailRequestType = RequestMetadataType & {
     // encoding?: string,
     // headers?: {[string]: string | number | boolean}
   }[],
-  headers?: {[string]: string | number | boolean},
+  headers?: { [string]: string | number | boolean },
   customize?: (string, EmailRequestType) => Promise<EmailRequestType>
-}
+};
 
 export type PushRequestType = RequestMetadataType & {
   registrationToken: string,
   title: string,
   body: string,
   custom?: Object,
-  priority?: 'high' | 'normal', // gcm, apn. Will be translated to 10 and 5 for apn. Defaults to 'high'
+  priority?: "high" | "normal", // gcm, apn. Will be translated to 10 and 5 for apn. Defaults to 'high'
   collapseKey?: string, // gcm for android, used as collapseId in apn
   contentAvailable?: boolean, // gcm for android
   delayWhileIdle?: boolean, // gcm for android
@@ -68,31 +73,31 @@ export type PushRequestType = RequestMetadataType & {
   mutableContent?: number, // apn
   expiry?: number, // seconds
   timeToLive?: number, // if both expiry and timeToLive are given, expiry will take precedency
-  headers?: {[string]: string | number | boolean}, // wns
+  headers?: { [string]: string | number | boolean }, // wns
   launch?: string, // wns
   duration?: string, // wns
   consolidationKey?: string, // ADM
   customize?: (string, PushRequestType) => Promise<PushRequestType>
-}
+};
 
 export type SmsRequestType = RequestMetadataType & {
   from: string,
   to: string,
   text: string,
-  type?: 'text' | 'unicode', // Defaults to 'text'
-  nature?: 'marketing' | 'transactional',
+  type?: "text" | "unicode", // Defaults to 'text'
+  nature?: "marketing" | "transactional",
   ttl?: number,
   messageClass?: 0 | 1 | 2 | 3, // 0 for Flash SMS, 1 - ME-specific, 2 - SIM / USIM specific, 3 - TE-specific
-// } & (
-//   {type?: 'text', text: string}
-//   | {type: 'unicode', text: string}
-//   | {type: 'binary', body: string, udh: string, protocolId: string}
-//   | {type: 'wappush', title: string, url: string, validity?: number}
-//   | {type: 'vcal', vcal: string}
-//   | {type: 'vcard', vcard: string}
-// )
+  // } & (
+  //   {type?: 'text', text: string}
+  //   | {type: 'unicode', text: string}
+  //   | {type: 'binary', body: string, udh: string, protocolId: string}
+  //   | {type: 'wappush', title: string, url: string, validity?: number}
+  //   | {type: 'vcal', vcal: string}
+  //   | {type: 'vcard', vcard: string}
+  // )
   customize?: (string, SmsRequestType) => Promise<SmsRequestType>
-}
+};
 
 export type VoiceRequestType = RequestMetadataType & {
   from: string,
@@ -108,7 +113,7 @@ export type VoiceRequestType = RequestMetadataType & {
   machineDetectionTimeout?: number,
   timeout?: number,
   customize?: (string, VoiceRequestType) => Promise<VoiceRequestType>
-}
+};
 
 export type WebpushRequestType = RequestMetadataType & {
   subscription: {
@@ -126,13 +131,13 @@ export type WebpushRequestType = RequestMetadataType & {
     icon?: string
   }[], // C53
   badge?: string, // C53
-  dir?: 'auto' | 'rtl' | 'ltr', // C22 F22 S6
+  dir?: "auto" | "rtl" | "ltr", // C22 F22 S6
   icon?: string, // C22 F22
   image?: string, // C55 F22
-  redirects?: {[key: string]: string}, // added for local tests
+  redirects?: { [key: string]: string }, // added for local tests
   requireInteraction?: boolean, // C22 F52
   customize?: (string, WebpushRequestType) => Promise<WebpushRequestType>
-}
+};
 
 export type SlackRequestType = RequestMetadataType & {
   webhookUrl?: string, // Required if not configured in provider
@@ -154,10 +159,10 @@ export type SlackRequestType = RequestMetadataType & {
       short?: boolean
     }[],
     actions?: {
-      type: 'button',
+      type: "button",
       text: string,
       url: string,
-      style?: 'primary' | 'danger'
+      style?: "primary" | "danger"
     }[],
     image_url?: string,
     thumb_url?: string,
@@ -166,6 +171,12 @@ export type SlackRequestType = RequestMetadataType & {
     ts?: number
   }[],
   customize?: (string, SlackRequestType) => Promise<SlackRequestType>
-}
+};
 
-export type RequestType = EmailRequestType | PushRequestType | SmsRequestType | VoiceRequestType | WebpushRequestType | SlackRequestType
+export type RequestType =
+  | EmailRequestType
+  | PushRequestType
+  | SmsRequestType
+  | VoiceRequestType
+  | WebpushRequestType
+  | SlackRequestType;
